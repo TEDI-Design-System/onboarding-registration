@@ -25,5 +25,9 @@ export const TEDI_LINKS = [
   {
     url: 'https://github.com/TEDI-Design-System',
     label: 'TEDI GitHub'
+  },
+  {
+    url: 'https://www.figma.com/design/jWiRIXhHRxwVdMSimKX2FF/TEDI-READY-2.30.43?m=auto&node-id=1-1578&t=b1XRxrZpLBGs5Emf-1',
+    label: 'TEDI Figma'
   }
 ];
