@@ -6,19 +6,9 @@
 export const ONBOARDING_DATES = [
   {
     id: 'date1',
-    label: 'Teisipäev, 20. jaanuar 2026 kell 10:00',
-    value: 'Teisipäev, 20. jaanuar 2026 kell 10:00'
+    label: 'Teisipäev, 3. veebruar 2026 kell 11:00',
+    value: 'Teisipäev, 3. veebruar 2026 kell 11:00'
   },
-  {
-    id: 'date2',
-    label: 'Neljapäev, 22. jaanuar 2026 kell 14:00',
-    value: 'Neljapäev, 22. jaanuar 2026 kell 14:00'
-  },
-  {
-    id: 'date3',
-    label: 'Esmaspäev, 26. jaanuar 2026 kell 11:00',
-    value: 'Esmaspäev, 26. jaanuar 2026 kell 11:00'
-  }
 ];
 
 // TEDI related links
