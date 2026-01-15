@@ -1,18 +1,26 @@
 import { Button, TextField, Radio, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
+import { FigmaMember } from '../constants/formDefaults';
 
-export const FigmaLicenseList = ({ members, onAdd, onRemove, onUpdate }) => {
+interface FigmaLicenseListProps {
+  members: FigmaMember[];
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+  onUpdate: (index: number, field: string, value: string) => void;
+}
+
+export const FigmaLicenseList = ({ members, onAdd, onRemove, onUpdate }: FigmaLicenseListProps): JSX.Element => {
   return (
     <VerticalSpacing.Item>
-      <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Figma ligipääsud</h3>
-      <Card background="neutral" className="info-card-neutral" style={{ marginBottom: '1.5rem' }}>
+      <h3 className="section-heading">Figma ligipääsud</h3>
+      <Card background="neutral" className="info-card-neutral card-margin-bottom">
         <Card.Content>
-          <p style={{ marginTop: 0, marginBottom: '0.5rem' }}>
+          <p className="card-content-text">
             Kui projekt hakkab TEDI disainisüsteemi kasutama Figmas siis tuleb projektifail luua või üle tuua TEDI Figmasse.
           </p>
-          <p style={{ marginBottom: '0.5rem' }}>
+          <p className="card-text">
             Litsentsitasud kasutajate eest esitatakse tellijale kord aastas. Figmas on eristatud full seat ning dev mode litsentsid.
           </p>
-          <ul style={{ marginTop: '0.5rem', marginBottom: 0, paddingLeft: '1.5rem' }}>
+          <ul className="card-list">
             <li><strong>Full seat</strong> - mõeldud disaineritele kes prototüüpe loovad ja muudavad.</li>
             <li><strong>Dev mode</strong> - mõeldud arendajatele kes komponente ja vaateid arendavad.</li>
           </ul>
@@ -33,12 +41,12 @@ export const FigmaLicenseList = ({ members, onAdd, onRemove, onUpdate }) => {
                     onChange={(value) => onUpdate(index, 'email', value)}
                     placeholder="nimi@email.ee"
                     input={{ required: true, type: 'email' }}
-                    style={{ maxWidth: '50%' }}
+                    className="text-field-half-width"
                   />
                 </VerticalSpacing.Item>
                 <VerticalSpacing.Item>
                   <div role="group" aria-labelledby={`figma-license-label-${index}`}>
-                    <div id={`figma-license-label-${index}`} style={{ marginBottom: '0.75rem', fontWeight: 500 }}>
+                    <div id={`figma-license-label-${index}`} className="radio-label">
                       Litsentsi tüüp:
                     </div>
                     <VerticalSpacing size={0.5}>

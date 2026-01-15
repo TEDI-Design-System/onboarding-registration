@@ -100,3 +100,91 @@
     padding: 1rem;
   }
 }
+
+.card-content-text {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.card-list {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
+}
+
+.field-label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.radio-label {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.required-asterisk {
+  color: #D73E3E;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-heading {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.card-margin-bottom {
+  margin-bottom: 1.5rem;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 1rem 0;
+}
+
+.text-field-half-width {
+  max-width: 50%;
+}
+
+.list-spacing-top {
+  margin-top: 1.5rem;
+}
+
+.button-spacing-top {
+  margin-top: 1rem;
+}
+
+.alert-container {
+  margin-bottom: 1.5rem;
+}
+
+.thank-you-heading {
+  margin-top: 0;
+}
+
+.thank-you-list {
+  padding-left: 1.5rem;
+}
+
+.thank-you-list-item {
+  margin-bottom: 0.5rem;
+}
+
+.card-subheading {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  margin-bottom: 0.5rem;
+}
+
+.card-text-bold {
+  margin: 0;
+  font-weight: 500;
+}

@@ -1,6 +1,12 @@
 import { TextField, TextArea, VerticalSpacing } from '@tedi-design-system/react/tedi';
+import { FormData } from '../constants/formDefaults';
 
-export const AdditionalInfoStep = ({ formData, onChange }) => {
+interface AdditionalInfoStepProps {
+  formData: FormData;
+  onChange: (name: keyof FormData) => (value: string) => void;
+}
+
+export const AdditionalInfoStep = ({ formData, onChange }: AdditionalInfoStepProps): JSX.Element => {
   return (
     <VerticalSpacing size={1.5}>
       <VerticalSpacing.Item>
@@ -10,7 +16,7 @@ export const AdditionalInfoStep = ({ formData, onChange }) => {
           value={formData.frontendFramework}
           onChange={onChange('frontendFramework')}
           placeholder="Näiteks: React, Angular, Vue.js jne"
-          style={{ maxWidth: '50%' }}
+          className="text-field-half-width"
         />
       </VerticalSpacing.Item>
       <VerticalSpacing.Item>

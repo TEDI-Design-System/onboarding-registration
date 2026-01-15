@@ -15,19 +15,25 @@ import {
 import { useFormData, useDynamicList } from './hooks';
 import { TOTAL_STEPS } from './constants';
 import { submitToGoogleSheets } from './utils/googleSheets';
+import { FigmaMember, MeetingParticipant } from './constants/formDefaults';
 
-function App() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [status, setStatus] = useState({ type: '', message: '' });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+interface Status {
+  type: string;
+  message: string;
+}
+
+function App(): JSX.Element {
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [status, setStatus] = useState<Status>({ type: '', message: '' });
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { formData, errors, handleChange, resetForm, validateStep2, setFormData } = useFormData();
 
-  const figmaList = useDynamicList(formData, setFormData, 'figmaMembers');
-  const meetingList = useDynamicList(formData, setFormData, 'meetingParticipants');
+  const figmaList = useDynamicList<FigmaMember>(formData, setFormData, 'figmaMembers');
+  const meetingList = useDynamicList<MeetingParticipant>(formData, setFormData, 'meetingParticipants');
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     console.log('handleNext called, currentStep:', currentStep);
     if (currentStep === 0 && !formData.onboardingTime) {
       setStatus({ type: 'error', message: 'Palun valige sobiv onboardingu aeg' });
@@ -46,13 +52,13 @@ function App() {
     }
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = (): void => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     console.log('handleSubmit called, currentStep:', currentStep);
 
     if (currentStep !== TOTAL_STEPS - 1) {
@@ -72,9 +78,10 @@ function App() {
       setCurrentStep(0);
     } catch (error) {
       console.error('Error submitting:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Viga andmete saatmisel. Palun proovige hiljem uuesti.';
       setStatus({
         type: 'error',
-        message: error.message || 'Viga andmete saatmisel. Palun proovige hiljem uuesti.'
+        message: errorMessage
       });
     } finally {
       setIsSubmitting(false);
@@ -91,7 +98,7 @@ function App() {
       <p>TEDI on Eesti riigi ühtne disainisüsteem, mis aitab luua kasutajasõbralikke ja järjepidevaid digitaalseid teenuseid. Registreerige oma meeskond TEDI onboarding sessioonile, et alustada TEDI disainisüsteemi kasutamist oma projektis.</p>
 
       {status.message && (
-        <div style={{ marginBottom: '1.5rem' }}>
+        <div className="alert-container">
           <Alert
             type="danger"
             onClose={() => setStatus({ type: '', message: '' })}

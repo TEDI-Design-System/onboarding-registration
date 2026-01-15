@@ -1,6 +1,18 @@
 import { VerticalSpacing } from '@tedi-design-system/react/tedi';
 import { FigmaLicenseList } from './FigmaLicenseList';
 import { MeetingParticipantsList } from './MeetingParticipantsList';
+import { FigmaMember, MeetingParticipant } from '../constants/formDefaults';
+
+interface AccessAndLicensesStepProps {
+  figmaMembers: FigmaMember[];
+  meetingParticipants: MeetingParticipant[];
+  onAddFigmaLicense: () => void;
+  onRemoveFigmaLicense: (index: number) => void;
+  onUpdateFigmaLicense: (index: number, field: string, value: string) => void;
+  onAddMeetingParticipant: () => void;
+  onRemoveMeetingParticipant: (index: number) => void;
+  onUpdateMeetingParticipant: (index: number, field: string, value: string) => void;
+}
 
 export const AccessAndLicensesStep = ({
   figmaMembers,
@@ -11,7 +23,7 @@ export const AccessAndLicensesStep = ({
   onAddMeetingParticipant,
   onRemoveMeetingParticipant,
   onUpdateMeetingParticipant
-}) => {
+}: AccessAndLicensesStepProps): JSX.Element => {
   return (
     <VerticalSpacing size={2.5}>
       <FigmaLicenseList
@@ -22,7 +34,7 @@ export const AccessAndLicensesStep = ({
       />
 
       <VerticalSpacing.Item>
-        <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: '1rem 0' }} />
+        <hr className="section-divider" />
       </VerticalSpacing.Item>
 
       <MeetingParticipantsList

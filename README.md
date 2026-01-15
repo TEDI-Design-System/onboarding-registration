@@ -4,16 +4,16 @@ A React-based registration form for the TEDI onboarding process that submits dat
 
 ## Features
 
-- 📝 Simple registration form with 4 fields:
+- Simple registration form with 4 fields:
   - Nimi (Name)
   - Email
   - Projekt (Project)
   - Projektimeeskond, kellele vaja Figma litsentse (Team members needing Figma license)
-- 🎨 Built with TEDI Design System components
-- 📊 Direct integration with Google Sheets
-- 📱 Responsive design
-- ✅ Form validation
-- 🚀 Deployable to GitHub Pages
+- Built with TEDI Design System components
+- Direct integration with Google Sheets
+- Responsive design
+- Form validation
+- Deployable to GitHub Pages
 
 ## Prerequisites
 
@@ -132,7 +132,7 @@ For GitHub Pages deployment, you need to set the environment variable during bui
 
 2. Or set it in your GitHub Actions workflow if using CI/CD.
 
-**⚠️ Security Note:** Environment variables prefixed with `VITE_` are exposed in the client-side code. Since this is a public form, this is acceptable. However, never include sensitive credentials.
+**Security Note:** Environment variables prefixed with `VITE_` are exposed in the client-side code. Since this is a public form, this is acceptable. However, never include sensitive credentials.
 
 ## Testing the Google Sheets Connection
 
@@ -184,9 +184,9 @@ export const TEDI_LINKS = [
 ```
 tedi-onboarding/
 ├── src/
-│   ├── App.jsx              # Main form component
+│   ├── App.tsx              # Main form component
 │   ├── App.css              # Styles
-│   └── main.jsx             # Entry point
+│   └── main.tsx             # Entry point
 ├── .env.example             # Environment variable template
 ├── content.config.js        # Content configuration (dates, links)
 ├── google-apps-script.js    # Google Apps Script code

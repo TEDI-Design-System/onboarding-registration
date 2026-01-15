@@ -1,17 +1,22 @@
 import { Radio, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
 import { ONBOARDING_DATES } from '../constants/dates';
 
-export const OnboardingTimeStep = ({ value, onChange }) => {
+interface OnboardingTimeStepProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export const OnboardingTimeStep = ({ value, onChange }: OnboardingTimeStepProps): JSX.Element => {
   return (
     <VerticalSpacing size={1.5}>
       <VerticalSpacing.Item>
         <Card background="neutral" className="info-card-neutral">
           <Card.Content>
-            <p style={{ marginTop: 0, marginBottom: '0.5rem' }}>
+            <p className="card-content-text">
               TEDI onboarding on sissejuhatav sessioon, kus tutvustame teile TEDI disainisüsteemi
               põhimõtteid, komponente ja parimaid praktikaid. Sessioon hõlmab:
             </p>
-            <ul style={{ marginTop: '0.5rem', marginBottom: 0, paddingLeft: '1.5rem' }}>
+            <ul className="card-list">
               <li>TEDI disainisüsteemi ülevaade ja põhimõtted</li>
               <li>Komponentide kasutamine ja integreerimine projektis</li>
               <li>Figma ja arenduse vaheline töövoog</li>
@@ -22,10 +27,10 @@ export const OnboardingTimeStep = ({ value, onChange }) => {
       </VerticalSpacing.Item>
       <VerticalSpacing.Item>
         <div role="group" aria-labelledby="onboarding-date-label">
-          <div id="onboarding-date-label" style={{ marginBottom: '0.5rem', fontWeight: 500 }}>
-            Valige sobiv onboardingu aeg: <span style={{ color: '#D73E3E' }}>*</span>
+          <div id="onboarding-date-label" className="field-label">
+            Valige sobiv onboardingu aeg: <span className="required-asterisk">*</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div className="radio-group">
             {ONBOARDING_DATES.map((date) => (
               <Radio
                 key={date.id}

@@ -1,16 +1,17 @@
-/**
- * Submit form data to Google Sheets via Google Apps Script
- * @param {Object} formData - The form data to submit
- * @returns {Promise<Object>} Response from the Google Apps Script
- */
-export const submitToGoogleSheets = async (formData) => {
-  const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+import { FormData } from '../constants/formDefaults';
+
+interface SubmitResponse {
+  status: string;
+  message: string;
+}
+
+export const submitToGoogleSheets = async (formData: FormData): Promise<SubmitResponse> => {
+  const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL as string | undefined;
 
   if (!scriptUrl || scriptUrl === 'your-google-apps-script-web-app-url-here') {
     throw new Error('Google Apps Script URL ei ole seadistatud. Palun kontrollige .env faili.');
   }
 
-  // Format the data for Google Sheets
   const dataToSubmit = {
     timestamp: new Date().toISOString(),
     onboardingTime: formData.onboardingTime || '',
@@ -29,7 +30,7 @@ export const submitToGoogleSheets = async (formData) => {
   try {
     const response = await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors', // Google Apps Script requires no-cors mode
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -38,8 +39,6 @@ export const submitToGoogleSheets = async (formData) => {
 
     console.log('Request sent successfully. Note: Response cannot be read due to no-cors mode.');
 
-    // Note: With no-cors mode, we can't read the response
-    // We assume success if no error was thrown
     return { status: 'success', message: 'Andmed edukalt salvestatud' };
   } catch (error) {
     console.error('Error submitting to Google Sheets:', error);

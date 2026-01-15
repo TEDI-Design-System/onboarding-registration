@@ -1,9 +1,17 @@
 import { Button, TextField, Radio, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
+import { MeetingParticipant } from '../constants/formDefaults';
 
-export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdate }) => {
+interface MeetingParticipantsListProps {
+  participants: MeetingParticipant[];
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+  onUpdate: (index: number, field: string, value: string) => void;
+}
+
+export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdate }: MeetingParticipantsListProps): JSX.Element => {
   return (
     <VerticalSpacing.Item>
-      <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Koosolekutel osalemine</h3>
+      <h3 className="section-heading">Koosolekutel osalemine</h3>
       <p>
         Üle nädala toimuvad koosolekud TEDI kasutajatele, nii disaineritele kui arendajatele.
       </p>
@@ -12,11 +20,11 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
         <VerticalSpacing.Item>
           <Card background="neutral" className="info-card-neutral">
             <Card.Content>
-              <h4 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Disainikoosolek</h4>
-              <p style={{ marginBottom: '0.5rem' }}>
+              <h4 className="card-subheading">Disainikoosolek</h4>
+              <p className="card-text">
                 Disainikoosolekul arutatakse uute komponentide vajadusi, muudatuse vajadusi, probleeme komponentides, projektid annavad kasutatavuse tagasiside ning otsitakse lahendusi projektidele. TEDI tiimi poolt tutvustatakse mis komponendid on valmimisel, kogutatakse tagasisidet ning antakse teada kui uued komponendid on valmis kasutamiseks.
               </p>
-              <p style={{ margin: 0, fontWeight: 500 }}>Toimumisaeg: E kell 16-17, üle nädala</p>
+              <p className="card-text-bold">Toimumisaeg: E kell 16-17, üle nädala</p>
             </Card.Content>
           </Card>
         </VerticalSpacing.Item>
@@ -24,17 +32,17 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
         <VerticalSpacing.Item>
           <Card background="neutral" className="info-card-neutral">
             <Card.Content>
-              <h4 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Arenduse koosolek</h4>
-              <p style={{ marginBottom: '0.5rem' }}>
+              <h4 className="card-subheading">Arenduse koosolek</h4>
+              <p className="card-text">
                 Arenduse koosolekul arutatakse mis on hetkel TEDI tiimi poolt töös, lahendatakse projektide probleeme ja murekohti, kogutakse kasutatavuse tagasisidet ning projektid annavad teada komponentide arenduse soovist ning kui nad ise on midagi Communitysse arendanud ning see vajab ülevaatamist.
               </p>
-              <p style={{ margin: 0, fontWeight: 500 }}>Toimumisaeg: K kell 15-16, üle nädala</p>
+              <p className="card-text-bold">Toimumisaeg: K kell 15-16, üle nädala</p>
             </Card.Content>
           </Card>
         </VerticalSpacing.Item>
       </VerticalSpacing>
 
-      <VerticalSpacing size={1} style={{ marginTop: '1.5rem' }}>
+      <VerticalSpacing size={1} className="list-spacing-top">
         {participants.map((participant, index) => (
           <VerticalSpacing.Item key={index}>
             <Card>
@@ -48,12 +56,12 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
                     onChange={(value) => onUpdate(index, 'email', value)}
                     placeholder="nimi@email.ee"
                     input={{ required: true, type: 'email' }}
-                    style={{ maxWidth: '50%' }}
+                    className="text-field-half-width"
                   />
                 </VerticalSpacing.Item>
                 <VerticalSpacing.Item>
                   <div role="group" aria-labelledby={`meeting-type-label-${index}`}>
-                    <div id={`meeting-type-label-${index}`} style={{ marginBottom: '0.75rem', fontWeight: 500 }}>
+                    <div id={`meeting-type-label-${index}`} className="radio-label">
                       Koosoleku tüüp:
                     </div>
                     <VerticalSpacing size={0.5}>
@@ -96,7 +104,7 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
           </VerticalSpacing.Item>
         ))}
         <VerticalSpacing.Item>
-          <Button type="button" onClick={onAdd} style={{ marginTop: '1rem' }}>
+          <Button type="button" onClick={onAdd} className="button-spacing-top">
             + Lisa koosolekul osaleja
           </Button>
         </VerticalSpacing.Item>

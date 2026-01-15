@@ -1,7 +1,11 @@
 import { Button, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
 import { TEDI_LINKS } from '../constants/links';
 
-export const ThankYouPage = ({ onNewRegistration }) => {
+interface ThankYouPageProps {
+  onNewRegistration: () => void;
+}
+
+export const ThankYouPage = ({ onNewRegistration }: ThankYouPageProps): JSX.Element => {
   return (
     <div className="app-container">
       <h1>Aitäh registreerimise eest!</h1>
@@ -11,13 +15,13 @@ export const ThankYouPage = ({ onNewRegistration }) => {
         <Card.Content>
           <VerticalSpacing size={2}>
             <VerticalSpacing.Item>
-              <h2 style={{ marginTop: 0 }}>Kasulikud lingid</h2>
+              <h2 className="thank-you-heading">Kasulikud lingid</h2>
             </VerticalSpacing.Item>
             <VerticalSpacing.Item>
               <h3>TEDI dokumentatsioon ja ressursid:</h3>
-              <ul style={{ paddingLeft: '1.5rem' }}>
+              <ul className="thank-you-list">
                 {TEDI_LINKS.map((link, index) => (
-                  <li key={index} style={{ marginBottom: '0.5rem' }}>
+                  <li key={index} className="thank-you-list-item">
                     <a href={link.url} target="_blank" rel="noopener noreferrer">
                       {link.label}
                     </a>
