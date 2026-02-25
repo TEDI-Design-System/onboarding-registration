@@ -22,10 +22,10 @@ export const AdditionalInfoStep = ({ formData, onChange }: AdditionalInfoStepPro
       <VerticalSpacing.Item>
         <TextArea
           id="tediUsageQuestions"
-          label="Mis lahtised küsimused on seoses TEDI kasutamisega, vabas vormis saab küs kirja panna"
+          label="Küsimused TEDI (kasutamise) kohta millele soovid saada onboardingult vastuse"
           value={formData.tediUsageQuestions}
           onChange={onChange('tediUsageQuestions')}
-          placeholder="Kirjeldage oma küsimusi ja muresid"
+          placeholder="Kirjeldage oma küsimusi"
           input={{ rows: 5 }}
         />
       </VerticalSpacing.Item>
