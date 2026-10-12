@@ -9,9 +9,9 @@
 export const ONBOARDING_DATES = [
   {
     id: 'date1',
-    label: 'Teisipäev, 3. veebruar 2026 kell 11:00',
-    value: 'Teisipäev, 3. veebruar 2026 kell 11:00',
-    date: '2026-02-03T11:00:00+02:00'
+    label: '21. oktoober 2026 kell 13:00 - 14:15',
+    value: '21. oktoober 2026 kell 13:00 - 14:15',
+    date: '2026-10-21T13:00:00+02:00'
   },
 ];
 
