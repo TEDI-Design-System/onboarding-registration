@@ -1,222 +1,109 @@
 # TEDI Onboarding Registration Form
 
-A React-based registration form for the TEDI onboarding process that submits data directly to Google Sheets. Built with Vite and TEDI Design System components.
+Registration form for TEDI onboarding sessions and Figma license requests, published at [onboarding.tedi.ee](https://onboarding.tedi.ee/). Submissions are saved to a Google Sheet through Google Apps Script. Built with Vite, React and [TEDI-READY](https://storybook.tedi.ee/react/) components.
 
-## Features
+## The form
 
-- Simple registration form with 4 fields:
-  - Nimi (Name)
-  - Email
-  - Projekt (Project)
-  - Projektimeeskond, kellele vaja Figma litsentse (Team members needing Figma license)
-- Built with TEDI Design System components
-- Direct integration with Google Sheets
-- Responsive design
-- Form validation
-- Deployable to GitHub Pages
+A four-step form:
+
+1. **Onboardingu aeg**: choose an onboarding session time. Only upcoming sessions are listed; when there are none, the step shows a notice and can be skipped
+2. **Projekti info**: project name, client, contractor and project manager (required)
+3. **Ligipääsud ja litsentsid**: team members who need a Figma license, and meeting participants
+4. **Lisainfo**: front-end framework and questions about using TEDI
 
 ## Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js 20.19 or newer
 - npm
-- Google account with access to Google Sheets and Google Apps Script
+- A Google account with access to Google Sheets and Google Apps Script
 
-## Setup Instructions
+## Setup
 
-### 1. Install Dependencies
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Set Up Google Sheets Integration
+### 2. Set up the Google Sheets integration
 
-#### Step 1: Create a Google Spreadsheet
-1. Go to [Google Sheets](https://sheets.google.com)
-2. Create a new spreadsheet for TEDI Onboarding registrations
-3. Copy the Spreadsheet ID from the URL:
-   ```
-   https://docs.google.com/spreadsheets/d/SPREADSHEET_ID_HERE/edit
-   ```
+1. Create a Google Spreadsheet and copy its ID from the URL: `https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit`.
+2. In [Google Apps Script](https://script.google.com/), create a new project and paste in the contents of `google-apps-script.js`.
+3. Set the `SPREADSHEET_ID` constant to your spreadsheet ID.
+4. Deploy it with **Deploy → New deployment**: type **Web App**, execute as **Me**, access **Anyone**.
+5. Copy the Web App URL (`https://script.google.com/macros/s/.../exec`).
 
-#### Step 2: Deploy Google Apps Script
-1. Go to [Google Apps Script](https://script.google.com/)
-2. Click "New Project"
-3. Copy the contents of `google-apps-script.js` into the editor
-4. Update the `SPREADSHEET_ID` constant with your spreadsheet ID
-5. Click "Deploy" > "New deployment"
-6. Settings:
-   - Type: **Web App**
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-7. Click "Deploy"
-8. Copy the Web App URL (it will look like: `https://script.google.com/macros/s/.../exec`)
+To check the setup, run the `testSetup` function in the Apps Script editor. It creates a `Registrations` sheet with headers.
 
-#### Step 3: Configure Environment Variables
-1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-2. Open `.env` and add your Google Apps Script Web App URL:
-   ```
-   VITE_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/.../exec
-   ```
-
-### 3. Development
-
-Run the development server:
+### 3. Configure the environment
 
 ```bash
-npm run dev
+cp .env.example .env
 ```
 
-The application will be available at `http://localhost:5173`
+Set `VITE_GOOGLE_SCRIPT_URL` in `.env` to the Web App URL.
 
-### 4. Build for Production
+`VITE_` variables end up in the client-side bundle. That's fine for this public form, but never put credentials in them.
+
+### 4. Run locally
 
 ```bash
-npm run build
+npm run dev      # http://localhost:5173
+npm run build    # production build into dist/
+npm run lint
 ```
 
-The built files will be in the `dist` directory.
+## Deployment
 
-## Deployment to GitHub Pages
+Every push to `main` builds the app and deploys it to GitHub Pages at [onboarding.tedi.ee](https://onboarding.tedi.ee/) (`.github/workflows/deploy.yml`). The workflow can also be run manually from the Actions tab.
 
-### Initial Setup
+The build reads the Web App URL from the `VITE_GOOGLE_SCRIPT_URL` repository secret.
 
-1. Create a new repository on GitHub
-2. Initialize git in your project (if not already done):
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   ```
-3. Add your GitHub repository as remote:
-   ```bash
-   git remote add origin https://github.com/YOUR_USERNAME/tedi-onboarding.git
-   ```
-4. Push to GitHub:
-   ```bash
-   git branch -M main
-   git push -u origin main
-   ```
+## Updating content
 
-### Deploy
-
-1. Update `vite.config.js` with your repository name:
-   ```javascript
-   base: '/your-repo-name/',
-   ```
-
-2. Deploy to GitHub Pages:
-   ```bash
-   npm run deploy
-   ```
-
-3. Enable GitHub Pages:
-   - Go to your repository settings
-   - Navigate to "Pages"
-   - Source: Select "gh-pages" branch
-   - Click "Save"
-
-Your form will be available at: `https://YOUR_USERNAME.github.io/tedi-onboarding/`
-
-### Environment Variables for GitHub Pages
-
-For GitHub Pages deployment, you need to set the environment variable during build:
-
-1. Create a `.env.production` file:
-   ```
-   VITE_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/.../exec
-   ```
-
-2. Or set it in your GitHub Actions workflow if using CI/CD.
-
-**Security Note:** Environment variables prefixed with `VITE_` are exposed in the client-side code. Since this is a public form, this is acceptable. However, never include sensitive credentials.
-
-## Testing the Google Sheets Connection
-
-After deploying the Google Apps Script:
-
-1. Open the Apps Script editor
-2. Select the `testSetup` function from the dropdown
-3. Click "Run"
-4. Check the execution log to verify the setup
-5. Check your Google Sheet - it should have a new sheet named "Registrations" with headers
-
-## Configuration
-
-### Updating Content
-
-All frequently updated content (dates and links) is centralized in `content.config.js` in the project root. This makes it easy to maintain without touching the application code.
-
-#### Onboarding Dates
-
-To update the available onboarding session dates:
+Session dates and the links shown after registration live in `content.config.js`, so they can be changed without touching the application code:
 
 ```javascript
 export const ONBOARDING_DATES = [
   {
     id: 'date1',
-    label: 'Teisipäev, 20. jaanuar 2026 kell 10:00',
-    value: 'Teisipäev, 20. jaanuar 2026 kell 10:00'
+    label: 'Teisipäev, 3. veebruar 2026 kell 11:00',
+    value: 'Teisipäev, 3. veebruar 2026 kell 11:00',
+    date: '2026-02-03T11:00:00+02:00'
   },
-  // Add or modify dates as needed
 ];
 ```
 
-#### TEDI Links
+`date` is the session start in Estonian time (`+02:00` in winter, `+03:00` in summer). Sessions that have already started are hidden. When no upcoming sessions are left, the first step shows a notice instead of the time choice, and people can still register. Those rows are saved with `Ootab uut aega` in the session column, so they need a follow-up once a new session is scheduled.
 
-To update TEDI related links:
+`TEDI_LINKS` in the same file holds the links.
 
-```javascript
-export const TEDI_LINKS = [
-  {
-    url: 'https://tedi.ee',
-    label: 'TEDI avalehekülg'
-  },
-  // Add or modify links as needed
-];
-```
-
-## Project Structure
+## Project structure
 
 ```
-tedi-onboarding/
 ├── src/
-│   ├── App.tsx              # Main form component
-│   ├── App.css              # Styles
-│   └── main.tsx             # Entry point
-├── .env.example             # Environment variable template
-├── content.config.js        # Content configuration (dates, links)
-├── google-apps-script.js    # Google Apps Script code
-├── vite.config.js           # Vite configuration
-└── package.json             # Dependencies
+│   ├── App.tsx              # Stepper, step switching and navigation
+│   ├── main.tsx             # Entry point, LabelProvider
+│   ├── components/          # One component per step, dynamic lists, thank-you page
+│   ├── hooks/               # Form state and dynamic list hooks
+│   ├── constants/           # Form defaults, dates and links
+│   └── utils/googleSheets.ts
+├── content.config.js        # Session dates and links
+├── google-apps-script.js    # Apps Script that writes to the sheet
+└── .github/workflows/deploy.yml
 ```
 
 ## Troubleshooting
 
-### Form submission not working
-- Verify the Google Apps Script is deployed as "Anyone" can access
-- Check that the Web App URL in `.env` is correct
-- Open browser console to see any error messages
-- Verify the Google Apps Script has the correct Spreadsheet ID
-
-### CORS errors
-- The form uses `mode: 'no-cors'` which is necessary for Google Apps Script
-- This means we can't read the response, but the data will still be saved
-
-### Deployment issues
-- Ensure the `base` path in `vite.config.js` matches your repository name
-- Verify GitHub Pages is enabled in repository settings
-- Check that the `gh-pages` branch exists after running `npm run deploy`
+- **Submissions don't arrive:** check that the Apps Script is deployed with access for **Anyone**, that `VITE_GOOGLE_SCRIPT_URL` is correct, and that the script has the right `SPREADSHEET_ID`.
+- **No response from the script:** the form posts with `mode: 'no-cors'`, which Google Apps Script requires. The response can't be read, but the data is still saved.
 
 ## License
 
-This project is part of the TEDI Design System initiative.
+[MIT](LICENSE)
 
 ## Support
 
-For issues related to TEDI Design System components, visit:
-- [TEDI Design System Documentation](https://tedi.tehik.ee/)
-- [TEDI Design System GitHub](https://github.com/TEHIK-EE/tedi-design-system)
+- [tedi.ee](https://www.tedi.ee/): TEDI documentation
+- [TEDI Storybook](https://storybook.tedi.ee/): component usage
+- [TEDI on GitHub](https://github.com/TEDI-Design-System)

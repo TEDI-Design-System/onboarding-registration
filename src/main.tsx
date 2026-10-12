@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { LabelProvider } from '@tedi-design-system/react/tedi';
 import './index.css';
 import App from './App';
 
@@ -8,6 +9,8 @@ if (!rootElement) throw new Error('Failed to find the root element');
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <LabelProvider locale="et">
+      <App />
+    </LabelProvider>
   </StrictMode>,
 );

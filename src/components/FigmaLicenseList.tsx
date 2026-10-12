@@ -12,7 +12,7 @@ export const FigmaLicenseList = ({ members, onAdd, onRemove, onUpdate }: FigmaLi
   return (
     <VerticalSpacing.Item>
       <h3 className="section-heading">Figma ligipääsud</h3>
-      <Card background="neutral" className="info-card-neutral card-margin-bottom">
+      <Card background="secondary" className="card-margin-bottom">
         <Card.Content>
           <p className="card-content-text">
             Kui projekt hakkab TEDI disainisüsteemi kasutama Figmas siis tuleb projektifail luua või üle tuua TEDI Figmasse.

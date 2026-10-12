@@ -14,7 +14,8 @@ export const submitToGoogleSheets = async (formData: FormData): Promise<SubmitRe
 
   const dataToSubmit = {
     timestamp: new Date().toISOString(),
-    onboardingTime: formData.onboardingTime || '',
+    // Without upcoming sessions the time is left empty; mark it so the row stands out in the sheet
+    onboardingTime: formData.onboardingTime || 'Ootab uut aega',
     projectName: formData.projectName || '',
     client: formData.client || '',
     contractor: formData.contractor || '',
