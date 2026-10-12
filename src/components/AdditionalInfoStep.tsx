@@ -1,4 +1,4 @@
-import { TextField, TextArea, VerticalSpacing } from '@tedi-design-system/react/tedi';
+import { TextField, Textarea, VerticalSpacing } from '@tedi-design-system/react/tedi';
 import { FormData } from '../constants/formDefaults';
 
 interface AdditionalInfoStepProps {
@@ -20,13 +20,12 @@ export const AdditionalInfoStep = ({ formData, onChange }: AdditionalInfoStepPro
         />
       </VerticalSpacing.Item>
       <VerticalSpacing.Item>
-        <TextArea
+        <Textarea
           id="tediUsageQuestions"
           label="Küsimused TEDI (kasutamise) kohta millele soovid saada onboardingult vastuse"
           value={formData.tediUsageQuestions}
           onChange={onChange('tediUsageQuestions')}
           placeholder="Kirjeldage oma küsimusi"
-          input={{ rows: 5 }}
         />
       </VerticalSpacing.Item>
     </VerticalSpacing>

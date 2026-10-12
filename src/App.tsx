@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button, Alert } from '@tedi-design-system/react/tedi';
-import { Stepper, Step } from '@tedi-design-system/react/community';
+import { Alert, Button, Card, HorizontalStepper } from '@tedi-design-system/react/tedi';
 import '@tedi-design-system/react/index.css';
 import './App.css';
 
@@ -13,9 +12,11 @@ import {
 } from './components';
 
 import { useFormData, useDynamicList } from './hooks';
-import { TOTAL_STEPS } from './constants';
+import { TOTAL_STEPS, UPCOMING_DATES } from './constants';
 import { submitToGoogleSheets } from './utils/googleSheets';
 import { FigmaMember, MeetingParticipant } from './constants/formDefaults';
+
+const STEP_LABELS = ['Onboardingu aeg', 'Projekti info', 'Ligipääsud ja litsentsid', 'Lisainfo'];
 
 interface Status {
   type: string;
@@ -35,7 +36,7 @@ function App(): JSX.Element {
 
   const handleNext = (): void => {
     console.log('handleNext called, currentStep:', currentStep);
-    if (currentStep === 0 && !formData.onboardingTime) {
+    if (currentStep === 0 && UPCOMING_DATES.length > 0 && !formData.onboardingTime) {
       setStatus({ type: 'error', message: 'Palun valige sobiv onboardingu aeg' });
       return;
     }
@@ -109,86 +110,77 @@ function App(): JSX.Element {
       )}
 
       <div>
-        <Stepper
-          activeStep={currentStep}
-          onActiveStepChange={setCurrentStep}
-          ariaLabel="TEDI Onboarding sammud"
-          card={true}
-          className="stepper-container"
-        >
-          <Step
-            label="Onboardingu aeg"
-            heading="Valida onboardingu aeg"
-            description="Valige sobiv aeg TEDI onboarding sessiooniks"
-            completed={currentStep > 0}
-          >
-            <OnboardingTimeStep
-              value={formData.onboardingTime}
-              onChange={handleChange('onboardingTime')}
-            />
-          </Step>
+        <Card className="stepper-container">
+          <Card.Content padding={0} hasSeparator>
+            <HorizontalStepper aria-label="TEDI Onboarding sammud">
+              {STEP_LABELS.map((label, index) => (
+                <HorizontalStepper.Item
+                  key={label}
+                  label={label}
+                  selected={index === currentStep}
+                  completed={index < currentStep}
+                  disabled={index > currentStep}
+                  onSelect={() => setCurrentStep(index)}
+                />
+              ))}
+            </HorizontalStepper>
+          </Card.Content>
+          <Card.Content hasSeparator>
+            {currentStep === 0 && (
+              <OnboardingTimeStep
+                value={formData.onboardingTime}
+                onChange={handleChange('onboardingTime')}
+              />
+            )}
 
-          <Step
-            label="Projekti info"
-            heading="Projekti üldandmed"
-            description="Sisestage projekti põhiandmed ja kontaktisikud"
-            completed={currentStep > 1}
-          >
-            <ProjectInfoStep
-              formData={formData}
-              errors={errors}
-              onChange={handleChange}
-            />
-          </Step>
+            {currentStep === 1 && (
+              <ProjectInfoStep
+                formData={formData}
+                errors={errors}
+                onChange={handleChange}
+              />
+            )}
 
-          <Step
-            label="Ligipääsud ja litsentsid"
-            heading="Ligipääsud ja litsentsid"
-            description="Määrake meeskonnaliikmetele vajalikud ligipääsud"
-            completed={currentStep > 2}
-          >
-            <AccessAndLicensesStep
-              figmaMembers={figmaList.items}
-              meetingParticipants={meetingList.items}
-              onAddFigmaLicense={() => figmaList.addItem({ email: '', licenseType: '' })}
-              onRemoveFigmaLicense={figmaList.removeItem}
-              onUpdateFigmaLicense={figmaList.updateItem}
-              onAddMeetingParticipant={() => meetingList.addItem({ email: '', meetingType: '' })}
-              onRemoveMeetingParticipant={meetingList.removeItem}
-              onUpdateMeetingParticipant={meetingList.updateItem}
-            />
-          </Step>
+            {currentStep === 2 && (
+              <AccessAndLicensesStep
+                figmaMembers={figmaList.items}
+                meetingParticipants={meetingList.items}
+                onAddFigmaLicense={() => figmaList.addItem({ email: '', licenseType: '' })}
+                onRemoveFigmaLicense={figmaList.removeItem}
+                onUpdateFigmaLicense={figmaList.updateItem}
+                onAddMeetingParticipant={() => meetingList.addItem({ email: '', meetingType: '' })}
+                onRemoveMeetingParticipant={meetingList.removeItem}
+                onUpdateMeetingParticipant={meetingList.updateItem}
+              />
+            )}
 
-          <Step
-            label="Lisainfo"
-            heading="Lisainfo"
-            description="Front-end raamistik ja küsimused TEDI kasutamise kohta"
-            completed={currentStep > 3}
-          >
-            <AdditionalInfoStep
-              formData={formData}
-              onChange={handleChange}
-            />
-          </Step>
-        </Stepper>
+            {currentStep === 3 && (
+              <AdditionalInfoStep
+                formData={formData}
+                onChange={handleChange}
+              />
+            )}
+          </Card.Content>
+          <Card.Content padding={{ vertical: 0.5, horizontal: 1 }}>
+            <div className="form-navigation">
+              {currentStep > 0 && (
+                <Button type="button" onClick={handlePrevious} visualType="link" iconLeft="arrow_back">
+                  Tagasi
+                </Button>
+              )}
 
-        <div className="form-navigation">
-          {currentStep > 0 && (
-            <Button type="button" onClick={handlePrevious} visualType="secondary">
-              Tagasi
-            </Button>
-          )}
-
-          {currentStep < TOTAL_STEPS - 1 ? (
-            <Button type="button" onClick={handleNext}>
-              Edasi
-            </Button>
-          ) : (
-            <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? 'Saadan...' : 'Registreeri'}
-            </Button>
-          )}
-        </div>
+              {currentStep < TOTAL_STEPS - 1 ? (
+                <Button type="button" onClick={handleNext} iconRight="arrow_forward">
+                  Edasi
+                </Button>
+              ) : (
+                <Button type="button" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? 'Saadan...' : 'Registreeri'}
+                </Button>
+              )}
+            </div>
+          </Card.Content>
+        </Card>
       </div>
     </div>
   );

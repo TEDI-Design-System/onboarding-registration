@@ -18,7 +18,7 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
 
       <VerticalSpacing size={1}>
         <VerticalSpacing.Item>
-          <Card background="neutral" className="info-card-neutral">
+          <Card background="secondary">
             <Card.Content>
               <h4 className="card-subheading">Disainikoosolek</h4>
               <p className="card-text">
@@ -30,7 +30,7 @@ export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdat
         </VerticalSpacing.Item>
 
         <VerticalSpacing.Item>
-          <Card background="neutral" className="info-card-neutral">
+          <Card background="secondary">
             <Card.Content>
               <h4 className="card-subheading">Arenduse koosolek</h4>
               <p className="card-text">

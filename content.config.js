@@ -2,12 +2,16 @@
 // This file centralizes all content that needs regular updates
 
 // Onboarding dates
-// Update these dates as needed for upcoming onboarding sessions
+// Update these dates as needed for upcoming onboarding sessions.
+// `date` is the session start in Estonian time (+02:00 in winter, +03:00 in summer).
+// Sessions whose start has passed are hidden; when none are left, the form shows
+// a "no upcoming onboardings" message instead.
 export const ONBOARDING_DATES = [
   {
     id: 'date1',
     label: 'Teisipäev, 3. veebruar 2026 kell 11:00',
-    value: 'Teisipäev, 3. veebruar 2026 kell 11:00'
+    value: 'Teisipäev, 3. veebruar 2026 kell 11:00',
+    date: '2026-02-03T11:00:00+02:00'
   },
 ];
 
