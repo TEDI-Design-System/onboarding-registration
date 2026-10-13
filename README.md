@@ -65,16 +65,11 @@ Session dates and the links shown after registration live in `content.config.js`
 
 ```javascript
 export const ONBOARDING_DATES = [
-  {
-    id: 'date1',
-    label: 'Teisipäev, 3. veebruar 2026 kell 11:00',
-    value: 'Teisipäev, 3. veebruar 2026 kell 11:00',
-    date: '2026-02-03T11:00:00+02:00'
-  },
+  { date: '2026-10-21', start: '13:00', end: '14:15' },
 ];
 ```
 
-`date` is the session start in Estonian time (`+02:00` in winter, `+03:00` in summer). Sessions that have already started are hidden. When no upcoming sessions are left, the first step shows a notice instead of the time choice, and people can still register. Those rows are saved with `Ootab uut aega` in the session column, so they need a follow-up once a new session is scheduled.
+Times are in Estonian time; summer and winter time are handled automatically. The form shows the session as "21. oktoober 2026 kell 13:00–14:15", and the same text is saved to the sheet. Sessions that have already started are hidden. When no upcoming sessions are left, the first step shows a notice instead of the time choice, and people can still register. Those rows are saved with `Ootab uut aega` in the session column, so they need a follow-up once a new session is scheduled.
 
 `TEDI_LINKS` in the same file holds the links.
 
@@ -83,8 +78,8 @@ export const ONBOARDING_DATES = [
 ```
 ├── src/
 │   ├── App.tsx              # Stepper, step switching and navigation
-│   ├── main.tsx             # Entry point, LabelProvider
-│   ├── components/          # One component per step, dynamic lists, thank-you page
+│   ├── main.tsx             # Entry point, LabelProvider, page layout
+│   ├── components/          # Page layout (header, footer), one component per step, dynamic lists, thank-you page
 │   ├── hooks/               # Form state and dynamic list hooks
 │   ├── constants/           # Form defaults, dates and links
 │   └── utils/googleSheets.ts

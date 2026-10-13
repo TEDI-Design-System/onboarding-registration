@@ -1,4 +1,4 @@
-import { Button, TextField, Radio, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
+import { Button, Card, ChoiceGroup, Col, Heading, Link, List, Row, Text, TextField, VerticalSpacing } from '@tedi-design-system/react/tedi';
 import { FigmaMember } from '../constants/formDefaults';
 
 interface FigmaLicenseListProps {
@@ -8,92 +8,78 @@ interface FigmaLicenseListProps {
   onUpdate: (index: number, field: string, value: string) => void;
 }
 
+const LICENSE_TYPES = [
+  { value: 'full', label: 'Full seat' },
+  { value: 'dev', label: 'Dev mode' },
+  { value: 'collab', label: 'Collab' },
+];
+
 export const FigmaLicenseList = ({ members, onAdd, onRemove, onUpdate }: FigmaLicenseListProps): JSX.Element => {
   return (
-    <VerticalSpacing.Item>
-      <h3 className="section-heading">Figma ligipääsud</h3>
-      <Card background="secondary" className="card-margin-bottom">
+    <VerticalSpacing size={1}>
+      <Heading element="h2" modifiers="h3">Figma ligipääsud</Heading>
+      <Card background="secondary">
         <Card.Content>
-          <p className="card-content-text">
-            Kui projekt hakkab TEDI disainisüsteemi kasutama Figmas siis tuleb projektifail luua või üle tuua TEDI Figmasse.
-          </p>
-          <p className="card-text">
-            Litsentsitasud kasutajate eest esitatakse tellijale kord aastas. Figmas on eristatud full seat ning dev mode litsentsid.
-          </p>
-          <ul className="card-list">
-            <li><strong>Full seat</strong> - mõeldud disaineritele kes prototüüpe loovad ja muudavad.</li>
-            <li><strong>Dev mode</strong> - mõeldud arendajatele kes komponente ja vaateid arendavad.</li>
-          </ul>
+          <VerticalSpacing size={0.5}>
+            <Text>
+              Kui projekt hakkab TEDI disainisüsteemi kasutama ning soovib seda teha TEDI Figmas, tuleb projektifail TEDI Figmas luua või sinna üle tuua.
+            </Text>
+            <Text>
+              Litsentsitasud kasutajate eest esitatakse tellijale kord aastas. Orienteeruvad hinnad leiab{' '}
+              <Link href="https://www.figma.com/pricing/" target="_blank" rel="noopener noreferrer">
+                Figma hinnakirjast
+              </Link>{' '}
+              (TEDI kasutab Enterprise paketti). Figmas on kolm litsentsi tüüpi: full seat, dev mode ja collab.
+            </Text>
+            <List style="styled">
+              <List.Item><strong>Full seat</strong> - mõeldud disaineritele, kes prototüüpe loovad ja muudavad.</List.Item>
+              <List.Item><strong>Dev mode</strong> - mõeldud arendajatele, kes komponente ja vaateid arendavad.</List.Item>
+              <List.Item><strong>Collab</strong> - mõeldud meeskonnaliikmetele, kes töötavad FigJamis või Figma Slidesis.</List.Item>
+            </List>
+            <Text>Kujunduste vaatamiseks ja kommenteerimiseks litsentsi vaja ei ole.</Text>
+          </VerticalSpacing>
         </Card.Content>
       </Card>
 
-      <VerticalSpacing size={1}>
-        {members.map((member, index) => (
-          <VerticalSpacing.Item key={index}>
-            <Card>
-              <Card.Content>
+      {members.map((member, index) => (
+        <Card key={index}>
+          <Card.Content>
+            <Row>
+              <Col width={12} md={6}>
                 <VerticalSpacing size={1}>
-                <VerticalSpacing.Item>
                   <TextField
                     id={`figma-email-${index}`}
-                    label="Email"
+                    label="E-post"
                     value={member.email}
                     onChange={(value) => onUpdate(index, 'email', value)}
                     placeholder="nimi@email.ee"
                     input={{ required: true, type: 'email' }}
-                    className="text-field-half-width"
                   />
-                </VerticalSpacing.Item>
-                <VerticalSpacing.Item>
-                  <div role="group" aria-labelledby={`figma-license-label-${index}`}>
-                    <div id={`figma-license-label-${index}`} className="radio-label">
-                      Litsentsi tüüp:
-                    </div>
-                    <VerticalSpacing size={0.5}>
-                      <VerticalSpacing.Item>
-                        <Radio
-                          id={`figma-full-${index}`}
-                          name={`figmaLicense-${index}`}
-                          label="Full seat"
-                          value="full"
-                          checked={member.licenseType === 'full'}
-                          onChange={(value) => onUpdate(index, 'licenseType', value)}
-                        />
-                      </VerticalSpacing.Item>
-                      <VerticalSpacing.Item>
-                        <Radio
-                          id={`figma-dev-${index}`}
-                          name={`figmaLicense-${index}`}
-                          label="Dev mode"
-                          value="dev"
-                          checked={member.licenseType === 'dev'}
-                          onChange={(value) => onUpdate(index, 'licenseType', value)}
-                        />
-                      </VerticalSpacing.Item>
-                    </VerticalSpacing>
+                  <ChoiceGroup
+                    id={`figma-license-${index}`}
+                    name={`figmaLicense-${index}`}
+                    label="Litsentsi tüüp"
+                    value={member.licenseType || null}
+                    onChange={(value) => onUpdate(index, 'licenseType', typeof value === 'string' ? value : '')}
+                    items={LICENSE_TYPES.map((type) => ({ id: `figma-${type.value}-${index}`, ...type }))}
+                  />
+                  <div>
+                    <Button type="button" onClick={() => onRemove(index)} visualType="secondary" size="small" iconLeft="delete">
+                      Eemalda
+                    </Button>
                   </div>
-                </VerticalSpacing.Item>
-                <VerticalSpacing.Item>
-                  <Button
-                    type="button"
-                    onClick={() => onRemove(index)}
-                    visualType="secondary"
-                    size="small"
-                  >
-                    Eemalda
-                  </Button>
-                </VerticalSpacing.Item>
-              </VerticalSpacing>
-              </Card.Content>
-            </Card>
-          </VerticalSpacing.Item>
-        ))}
-        <VerticalSpacing.Item>
-          <Button type="button" onClick={onAdd}>
-            + Lisa litsentsi soov
-          </Button>
-        </VerticalSpacing.Item>
-      </VerticalSpacing>
-    </VerticalSpacing.Item>
+                </VerticalSpacing>
+              </Col>
+            </Row>
+          </Card.Content>
+        </Card>
+      ))}
+
+      <div>
+        <Button type="button" onClick={onAdd} iconLeft="add">
+          Lisa litsentsi soov
+        </Button>
+      </div>
+    </VerticalSpacing>
   );
 };

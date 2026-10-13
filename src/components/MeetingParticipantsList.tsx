@@ -1,4 +1,4 @@
-import { Button, TextField, Radio, VerticalSpacing, Card } from '@tedi-design-system/react/tedi';
+import { Button, Card, ChoiceGroup, Col, Heading, Row, Text, TextField, VerticalSpacing } from '@tedi-design-system/react/tedi';
 import { MeetingParticipant } from '../constants/formDefaults';
 
 interface MeetingParticipantsListProps {
@@ -8,107 +8,84 @@ interface MeetingParticipantsListProps {
   onUpdate: (index: number, field: string, value: string) => void;
 }
 
+const MEETINGS = [
+  {
+    value: 'design',
+    label: 'Disainikoosolek',
+    description:
+      'Disainikoosolekul arutatakse uute komponentide vajadusi, muudatuse vajadusi, probleeme komponentides, projektid annavad kasutatavuse tagasiside ning otsitakse lahendusi projektidele. TEDI tiimi poolt tutvustatakse mis komponendid on valmimisel, kogutatakse tagasisidet ning antakse teada kui uued komponendid on valmis kasutamiseks.',
+    time: 'Toimumisaeg: E kell 16-17, üle nädala',
+  },
+  {
+    value: 'dev',
+    label: 'Arenduse koosolek',
+    description:
+      'Arenduse koosolekul arutatakse mis on hetkel TEDI tiimi poolt töös, lahendatakse projektide probleeme ja murekohti, kogutakse kasutatavuse tagasisidet ning projektid annavad teada komponentide arenduse soovist ning kui nad ise on midagi Communitysse arendanud ning see vajab ülevaatamist.',
+    time: 'Toimumisaeg: K kell 15-16, üle nädala',
+  },
+];
+
 export const MeetingParticipantsList = ({ participants, onAdd, onRemove, onUpdate }: MeetingParticipantsListProps): JSX.Element => {
   return (
-    <VerticalSpacing.Item>
-      <h3 className="section-heading">Koosolekutel osalemine</h3>
-      <p>
-        Üle nädala toimuvad koosolekud TEDI kasutajatele, nii disaineritele kui arendajatele.
-      </p>
+    <VerticalSpacing size={1}>
+      <Heading element="h2" modifiers="h3">Koosolekutel osalemine</Heading>
+      <Text>Üle nädala toimuvad koosolekud TEDI kasutajatele, nii disaineritele kui arendajatele.</Text>
 
-      <VerticalSpacing size={1}>
-        <VerticalSpacing.Item>
-          <Card background="secondary">
-            <Card.Content>
-              <h4 className="card-subheading">Disainikoosolek</h4>
-              <p className="card-text">
-                Disainikoosolekul arutatakse uute komponentide vajadusi, muudatuse vajadusi, probleeme komponentides, projektid annavad kasutatavuse tagasiside ning otsitakse lahendusi projektidele. TEDI tiimi poolt tutvustatakse mis komponendid on valmimisel, kogutatakse tagasisidet ning antakse teada kui uued komponendid on valmis kasutamiseks.
-              </p>
-              <p className="card-text-bold">Toimumisaeg: E kell 16-17, üle nädala</p>
-            </Card.Content>
-          </Card>
-        </VerticalSpacing.Item>
+      {MEETINGS.map((meeting) => (
+        <Card key={meeting.value} background="secondary">
+          <Card.Content>
+            <VerticalSpacing size={0.5}>
+              <Heading element="h3" modifiers="h4">{meeting.label}</Heading>
+              <Text>{meeting.description}</Text>
+              <Text modifiers="bold">{meeting.time}</Text>
+            </VerticalSpacing>
+          </Card.Content>
+        </Card>
+      ))}
 
-        <VerticalSpacing.Item>
-          <Card background="secondary">
-            <Card.Content>
-              <h4 className="card-subheading">Arenduse koosolek</h4>
-              <p className="card-text">
-                Arenduse koosolekul arutatakse mis on hetkel TEDI tiimi poolt töös, lahendatakse projektide probleeme ja murekohti, kogutakse kasutatavuse tagasisidet ning projektid annavad teada komponentide arenduse soovist ning kui nad ise on midagi Communitysse arendanud ning see vajab ülevaatamist.
-              </p>
-              <p className="card-text-bold">Toimumisaeg: K kell 15-16, üle nädala</p>
-            </Card.Content>
-          </Card>
-        </VerticalSpacing.Item>
-      </VerticalSpacing>
-
-      <VerticalSpacing size={1} className="list-spacing-top">
-        {participants.map((participant, index) => (
-          <VerticalSpacing.Item key={index}>
-            <Card>
-              <Card.Content>
+      {participants.map((participant, index) => (
+        <Card key={index}>
+          <Card.Content>
+            <Row>
+              <Col width={12} md={6}>
                 <VerticalSpacing size={1}>
-                <VerticalSpacing.Item>
                   <TextField
                     id={`meeting-email-${index}`}
-                    label="Email"
+                    label="E-post"
                     value={participant.email}
                     onChange={(value) => onUpdate(index, 'email', value)}
                     placeholder="nimi@email.ee"
                     input={{ required: true, type: 'email' }}
-                    className="text-field-half-width"
                   />
-                </VerticalSpacing.Item>
-                <VerticalSpacing.Item>
-                  <div role="group" aria-labelledby={`meeting-type-label-${index}`}>
-                    <div id={`meeting-type-label-${index}`} className="radio-label">
-                      Koosoleku tüüp:
-                    </div>
-                    <VerticalSpacing size={0.5}>
-                      <VerticalSpacing.Item>
-                        <Radio
-                          id={`meeting-design-${index}`}
-                          name={`meetingType-${index}`}
-                          label="Disainikoosolek"
-                          value="design"
-                          checked={participant.meetingType === 'design'}
-                          onChange={(value) => onUpdate(index, 'meetingType', value)}
-                        />
-                      </VerticalSpacing.Item>
-                      <VerticalSpacing.Item>
-                        <Radio
-                          id={`meeting-dev-${index}`}
-                          name={`meetingType-${index}`}
-                          label="Arenduse koosolek"
-                          value="dev"
-                          checked={participant.meetingType === 'dev'}
-                          onChange={(value) => onUpdate(index, 'meetingType', value)}
-                        />
-                      </VerticalSpacing.Item>
-                    </VerticalSpacing>
+                  <ChoiceGroup
+                    id={`meeting-type-${index}`}
+                    name={`meetingType-${index}`}
+                    label="Koosoleku tüüp"
+                    value={participant.meetingType || null}
+                    onChange={(value) => onUpdate(index, 'meetingType', typeof value === 'string' ? value : '')}
+                    items={MEETINGS.map((meeting) => ({
+                      id: `meeting-${meeting.value}-${index}`,
+                      value: meeting.value,
+                      label: meeting.label,
+                    }))}
+                  />
+                  <div>
+                    <Button type="button" onClick={() => onRemove(index)} visualType="secondary" size="small" iconLeft="delete">
+                      Eemalda
+                    </Button>
                   </div>
-                </VerticalSpacing.Item>
-                <VerticalSpacing.Item>
-                  <Button
-                    type="button"
-                    onClick={() => onRemove(index)}
-                    visualType="secondary"
-                    size="small"
-                  >
-                    Eemalda
-                  </Button>
-                </VerticalSpacing.Item>
-              </VerticalSpacing>
-              </Card.Content>
-            </Card>
-          </VerticalSpacing.Item>
-        ))}
-        <VerticalSpacing.Item>
-          <Button type="button" onClick={onAdd} className="button-spacing-top">
-            + Lisa koosolekul osaleja
-          </Button>
-        </VerticalSpacing.Item>
-      </VerticalSpacing>
-    </VerticalSpacing.Item>
+                </VerticalSpacing>
+              </Col>
+            </Row>
+          </Card.Content>
+        </Card>
+      ))}
+
+      <div>
+        <Button type="button" onClick={onAdd} iconLeft="add">
+          Lisa koosolekul osaleja
+        </Button>
+      </div>
+    </VerticalSpacing>
   );
 };
