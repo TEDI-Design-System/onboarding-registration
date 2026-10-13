@@ -2,17 +2,12 @@
 // This file centralizes all content that needs regular updates
 
 // Onboarding dates
-// Update these dates as needed for upcoming onboarding sessions.
-// `date` is the session start in Estonian time (+02:00 in winter, +03:00 in summer).
-// Sessions whose start has passed are hidden; when none are left, the form shows
-// a "no upcoming onboardings" message instead.
+// Date and start/end time in Estonian time. The form shows each session as
+// "21. oktoober 2026 kell 13:00–14:15".
+// Sessions that have started are hidden; when none are left, the form shows
+// a notice instead and people can still register.
 export const ONBOARDING_DATES = [
-  {
-    id: 'date1',
-    label: '21. oktoober 2026 kell 13:00 - 14:15',
-    value: '21. oktoober 2026 kell 13:00 - 14:15',
-    date: '2026-10-21T13:00:00+02:00'
-  },
+  { date: '2026-10-21', start: '13:00', end: '14:15' },
 ];
 
 // TEDI related links

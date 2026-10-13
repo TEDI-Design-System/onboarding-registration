@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Button, Card, HorizontalStepper } from '@tedi-design-system/react/tedi';
+import { Alert, Button, Card, Heading, HorizontalStepper, Text, VerticalSpacing } from '@tedi-design-system/react/tedi';
 import '@tedi-design-system/react/index.css';
 import './App.css';
 
@@ -28,6 +28,7 @@ function App(): JSX.Element {
   const [status, setStatus] = useState<Status>({ type: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [timeError, setTimeError] = useState<boolean>(false);
 
   const { formData, errors, handleChange, resetForm, validateStep2, setFormData } = useFormData();
 
@@ -35,9 +36,8 @@ function App(): JSX.Element {
   const meetingList = useDynamicList<MeetingParticipant>(formData, setFormData, 'meetingParticipants');
 
   const handleNext = (): void => {
-    console.log('handleNext called, currentStep:', currentStep);
     if (currentStep === 0 && UPCOMING_DATES.length > 0 && !formData.onboardingTime) {
-      setStatus({ type: 'error', message: 'Palun valige sobiv onboardingu aeg' });
+      setTimeError(true);
       return;
     }
 
@@ -49,7 +49,6 @@ function App(): JSX.Element {
     if (currentStep < TOTAL_STEPS - 1) {
       setStatus({ type: '', message: '' });
       setCurrentStep(currentStep + 1);
-      console.log('Moving to next step:', currentStep + 1);
     }
   };
 
@@ -60,20 +59,15 @@ function App(): JSX.Element {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    console.log('handleSubmit called, currentStep:', currentStep);
 
     if (currentStep !== TOTAL_STEPS - 1) {
-      console.log('Not on final step, returning');
       return;
     }
-
-    console.log('Submitting to Google Sheets...');
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
     try {
       await submitToGoogleSheets(formData);
-      console.log('Successfully submitted to Google Sheets');
       setIsSubmitted(true);
       resetForm();
       setCurrentStep(0);
@@ -94,23 +88,26 @@ function App(): JSX.Element {
   }
 
   return (
-    <div className="app-container">
-      <h1>TEDI Onboardingule registreerimine</h1>
-      <p>TEDI on Eesti riigi ühtne disainisüsteem, mis aitab luua kasutajasõbralikke ja järjepidevaid digitaalseid teenuseid. Registreerige oma meeskond TEDI onboarding sessioonile, et alustada TEDI disainisüsteemi kasutamist oma projektis.</p>
+    <main className="app-container">
+      <VerticalSpacing size={2}>
+        <div>
+          <VerticalSpacing size={0.5}>
+            <Heading element="h1">Onboardingule registreerimine</Heading>
+            <Text color="secondary">
+              TEDI on Eesti riigi ühtne disainisüsteem, mis aitab luua kasutajasõbralikke ja järjepidevaid digitaalseid
+              teenuseid. Registreerige oma meeskond TEDI onboarding sessioonile, et alustada TEDI disainisüsteemi
+              kasutamist oma projektis.
+            </Text>
+          </VerticalSpacing>
+        </div>
 
-      {status.message && (
-        <div className="alert-container">
-          <Alert
-            type="danger"
-            onClose={() => setStatus({ type: '', message: '' })}
-          >
+        {status.message && (
+          <Alert type="danger" onClose={() => setStatus({ type: '', message: '' })}>
             {status.message}
           </Alert>
-        </div>
-      )}
+        )}
 
-      <div>
-        <Card className="stepper-container">
+        <Card>
           <Card.Content padding={0} hasSeparator>
             <HorizontalStepper aria-label="TEDI Onboarding sammud">
               {STEP_LABELS.map((label, index) => (
@@ -129,7 +126,11 @@ function App(): JSX.Element {
             {currentStep === 0 && (
               <OnboardingTimeStep
                 value={formData.onboardingTime}
-                onChange={handleChange('onboardingTime')}
+                onChange={(value) => {
+                  handleChange('onboardingTime')(value);
+                  setTimeError(false);
+                }}
+                invalid={timeError}
               />
             )}
 
@@ -181,8 +182,8 @@ function App(): JSX.Element {
             </div>
           </Card.Content>
         </Card>
-      </div>
-    </div>
+      </VerticalSpacing>
+    </main>
   );
 }
 

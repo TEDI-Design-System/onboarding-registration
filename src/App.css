@@ -1,65 +1,25 @@
-/* Using TEDI default styles only */
-
-.app-container {
-  min-height: 100vh;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.app-container > h1 {
-  margin-bottom: 0.5rem;
-}
-
-.app-container > p {
-  margin-bottom: 2rem;
-  color: #666;
-}
-
-.registration-form {
+.page-layout {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
+  min-height: 100dvh;
 }
 
-.registration-form h2 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+/* Match the logo size on storybook.tedi.ee and the Storybook branch pages */
+.page-layout header {
+  --layout-header-logo-size: 32px;
 }
 
-/* Spacing is handled by TEDI VerticalSpacing component */
-
-/* TextField width constraint - half of container */
-.stepper-container [class*="tedi-text-field"],
-.stepper-container [class*="TextField"],
-.stepper-container .tedi-text-field,
-.stepper-container div[class*="text-field"] {
-  max-width: 50% !important;
-}
-
-.stepper-container input[type="text"],
-.stepper-container input[type="email"] {
-  max-width: 50%;
-}
-
-@media (max-width: 768px) {
-  .stepper-container [class*="tedi-text-field"],
-  .stepper-container [class*="TextField"],
-  .stepper-container .tedi-text-field,
-  .stepper-container div[class*="text-field"] {
-    max-width: 100% !important;
-  }
-
-  .stepper-container input[type="text"],
-  .stepper-container input[type="email"] {
-    max-width: 100%;
-  }
+.app-container {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--tedi-dimensions-14);
 }
 
 .form-navigation {
   display: flex;
-  gap: 1rem;
+  gap: var(--tedi-dimensions-10);
   justify-content: space-between;
   align-items: center;
 }
@@ -70,94 +30,6 @@
 
 @media (max-width: 768px) {
   .app-container {
-    padding: 1rem;
+    padding: var(--tedi-dimensions-10);
   }
-}
-
-.card-content-text {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-.card-list {
-  margin-top: 0.5rem;
-  margin-bottom: 0;
-  padding-left: 1.5rem;
-}
-
-.field-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.radio-label {
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-}
-
-.required-asterisk {
-  color: #D73E3E;
-}
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.section-heading {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-.card-margin-bottom {
-  margin-bottom: 1.5rem;
-}
-
-.section-divider {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 1rem 0;
-}
-
-.text-field-half-width {
-  max-width: 50%;
-}
-
-.list-spacing-top {
-  margin-top: 1.5rem;
-}
-
-.button-spacing-top {
-  margin-top: 1rem;
-}
-
-.alert-container {
-  margin-bottom: 1.5rem;
-}
-
-.thank-you-heading {
-  margin-top: 0;
-}
-
-.thank-you-list {
-  padding-left: 1.5rem;
-}
-
-.thank-you-list-item {
-  margin-bottom: 0.5rem;
-}
-
-.card-subheading {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-.card-text {
-  margin-bottom: 0.5rem;
-}
-
-.card-text-bold {
-  margin: 0;
-  font-weight: 500;
 }

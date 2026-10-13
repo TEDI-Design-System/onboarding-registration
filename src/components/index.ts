@@ -5,3 +5,4 @@ export { AccessAndLicensesStep } from './AccessAndLicensesStep';
 export { AdditionalInfoStep } from './AdditionalInfoStep';
 export { FigmaLicenseList } from './FigmaLicenseList';
 export { MeetingParticipantsList } from './MeetingParticipantsList';
+export { PageLayout } from './PageLayout';
