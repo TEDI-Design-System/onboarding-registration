@@ -8,6 +8,7 @@
 // a notice instead and people can still register.
 export const ONBOARDING_DATES = [
   { date: '2026-10-21', start: '13:00', end: '14:15' },
+  { date: '2026-11-26', start: '15:00', end: '16:15' }
 ];
 
 // TEDI related links
